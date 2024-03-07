@@ -18,10 +18,15 @@ module.exports = {
       data_inicio: {
         type: Sequelize.DATEONLY
       },
+      docente_id:{
+        allowNull:false,
+        type: Sequelize.INTEGER,
+        references: {model: 'pessoas', key: 'id'}
+      },
       categoria_id:{
         allowNull:false,
         type: Sequelize.INTEGER,
-        references: {model: 'categoria', key: 'id'}
+        references: {model: 'categorias', key: 'id'}
       },
       createdAt: {
         allowNull: false,
