@@ -1,14 +1,15 @@
 class Controller {
-  constructor(entidadeSerivce) {
-    this.entidadeSerivce = entidadeSerivce;
+  constructor(entidadeService) {
+    this.entidadeService = entidadeService;
   }
 
   async pegaTodos(req, res) {
     try {
-      const listaDeRegistros = await this.entidadeSerivce.pegaTodosOsRegistros();
+      const listaDeRegistros = await this.entidadeService.pegaTodosOsRegistros();
       return res.status(200).json(listaDeRegistros);
-    } catch (error) {
-      //erro 
+    } catch (erro) {
+      return res.status(500).json({erro: erro.message});
+ 
     }
   }
 
@@ -18,7 +19,7 @@ class Controller {
       const umRegistro = await this.entidadeService.pegaUmRegistroPorId(Number(id));
       return res.status(200).json(umRegistro);
     } catch (erro) {
-      // erro
+      return res.status(500).json({erro: erro.message});
     }
   }
 
@@ -28,8 +29,7 @@ class Controller {
       const novoRegistroCriado = await this.entidadeService.criaRegistro(dadosParaCriacao);
       return res.status(200).json(novoRegistroCriado);
     } catch (erro) {
-      // erro
-     
+      return res.status(500).json({erro: erro.message});
     }
   }
 
@@ -37,13 +37,13 @@ class Controller {
     const {id} = req.params;
     const dadosAtualizados = req.body;
     try {
-      const foiAtualizado = await this.entidadeSerivce.atualizaRegistros(dadosAtualizados, Number(id));
+      const foiAtualizado = await this.entidadeService.atualizaRegistros(dadosAtualizados, Number(id));
       if (!foiAtualizado) {
         return res.status(400).json({mensagem: 'registro não foi atualizado'});
       }
       return res.status(200).json({mensagem: 'registro atualizado com sucesso'});
-    } catch (error) {
-      return res.status(400).json({erro: error.message});
+    } catch (erro) {
+      return res.status(400).json({erro: erro.message});
     }
   }
 
@@ -52,8 +52,8 @@ class Controller {
     try {
       await this.entidadeService.excluiRegistro(Number(id));
       return res.status(200).json({mensagem: `id ${id} deletado` });
-    } catch (error) {
-      return res.status(500).json(error.message);
+    } catch (erro) {
+      return res.status(500).json(erro.message);
     }
   }
 }

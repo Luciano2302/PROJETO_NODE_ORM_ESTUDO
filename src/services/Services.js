@@ -1,4 +1,4 @@
-const dataSource = require('../models');
+const dataSource = require('../database/models');
 
 class Services {
   constructor(nomeDoModel) {
@@ -29,6 +29,7 @@ class Services {
  }
 
   async excluiRegistro(id) {
+    console.log("TESTE");
     return dataSource[this.model].destroy({ where: { id: id } });
   }
 }
